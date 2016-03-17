@@ -18,10 +18,17 @@ class Connect4:
 			    print e,
 			print 
 	
-	def __placetoken__(self, col):
-		return 0
+	def placetoken(self, col):
+		i = self.row - 1
+		while(i > 0):
+			if (self.board[i][col] == 0):
+				self.board[i][col] = 1
+				break
+			else:
+				i = i - 1
 		
-	def __winner__(self):
+	def winner(self):
 		return 0
 x = Connect4(6, 6, 4)
-x.printboard(x.board)	
+x.placetoken(2)
+x.printboard(x.board)
