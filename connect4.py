@@ -2,6 +2,7 @@
 
 import pickle
 
+
 class Connect4:
 	row_size = 7
 	col_size = 7
@@ -21,7 +22,14 @@ class Connect4:
 		self.board = [[0 for x in xrange(self.col_size)] for x in xrange(self.row_size)]
 
 	def print_board(self):
+		for i in xrange(1, self.col_size + 1):
+			print i,
 		print
+
+		for i in xrange(1, self.col_size + 1):
+			print('-'),
+		print
+
 		for row in self.board:
 			for e in row:
 				print e,
@@ -29,10 +37,10 @@ class Connect4:
 
 	def place_token(self, col, player):
 		row = self.row_size - 1
-		self.current_col = col
+		self.current_col = col - 1
 		while row >= 0:
-			if self.board[row][col] == 0:
-				self.board[row][col] = player
+			if self.board[row][col - 1] == 0:
+				self.board[row][col - 1] = player
 				self.current_row = row
 				return 1
 			else:
@@ -49,7 +57,7 @@ class Connect4:
 				count2 = 0
 				if count1 == self.win:
 					self.winner = True
-					print('Player 1 Won!')
+					#print('Player 1 Won!')
 					return 1
 
 			elif self.board[i][self.current_col] == 2:
@@ -57,7 +65,7 @@ class Connect4:
 				count1 = 0
 				if count2 == self.win:
 					self.winner = True
-					print('Player 2 Won!')
+					#print('Player 2 Won!')
 					return 2
 
 		#Check Horizontal Win
@@ -69,7 +77,7 @@ class Connect4:
 				count2 = 0
 				if count1 == self.win:
 					self.winner = True
-					print('Player 1 Won!')
+					#print('Player 1 Won!')
 					return 1
 			else:
 				count1 = 0
@@ -79,7 +87,7 @@ class Connect4:
 				count1 = 0
 				if count2 == self.win:
 					self.winner = True
-					print('Player 2 Won!')
+					#print('Player 2 Won!')
 					return 2
 			else:
 				count2 = 0
@@ -173,17 +181,45 @@ game = Connect4(7, 7, 4)
 
 while game.winner == False:
 	game.print_board()
-	if current_player == 1:
-		col = input('Player 1: ')
-		game.place_token(col, current_player)
-		game.check_if_won()
-		current_player = 2
-	elif current_player == 2:
-		col = input("Player 2: ")
-		game.place_token(col, current_player)
-		game.check_if_won()
-		current_player = 1
+	player1_won = False
+	player2_won = False
+	try:
+		if current_player == 1:
+			col = raw_input('Player 1: ')
+			if col == 'save':
+				game.save()
+			elif col == 'load':
+				game.load()
+			elif col == 'reset':
+				game.reset()
+			else:
+				col = int(col)
+				if game.place_token(col, current_player) == 1:
+					player1_won = True
+				game.check_if_won()
+				current_player = 2
+		elif current_player == 2:
+			col = raw_input("Player 2: ")
+			if col == 'save':
+				game.save()
+			elif col == 'load':
+				game.load()
+			elif col == 'reset':
+				game.reset()
+			else:
+				col = int(col)
+				if game.place_token(col, current_player) == 2:
+					player2_won = True
+				game.check_if_won()
+				current_player = 1
+	except:
+		print("Invalid Input")
 
 game.print_board()
+if(player1_won):
+	print('Player 1 Won!')
+else:
+	print('Player 2 Won!')
+
 
 
