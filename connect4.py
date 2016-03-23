@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 
 import pickle
-
+import sys
 
 class Connect4:
-	row_size = 7
-	col_size = 7
+	row_size = None
+	col_size = None
 	current_row = None
 	current_col = None
 	win = 4
 	board = []
 	winner = False
 
-	def __init__(self, row, col, win):
-		self.row_size = row
-		self.col_size = col
-		self.win = win
-		self.board = [[0 for x in xrange(col)] for x in xrange(row)]
+#	def __init__(self, row, col, win):
+#		self.row_size = row
+#		self.col_size = col
+#		self.win = win
+#		self.board = [[0 for x in xrange(col)] for x in xrange(row)]
 
 	def reset(self):
 		self.board = [[0 for x in xrange(self.col_size)] for x in xrange(self.row_size)]
@@ -105,7 +105,9 @@ class Connect4:
 				curr_col -= 1
 				curr_row += 1
 
-		while curr_col <= self.col_size - 1:
+		while curr_col <= self.col_size - 1 and curr_row >= 0:
+#			print('Col: ' + str(curr_col))
+#			print('Row: ' + str(curr_row))
 			if self.board[curr_row][curr_col] == 1:
 				count1 += 1
 				count2 = 0
@@ -140,7 +142,7 @@ class Connect4:
 				curr_col += 1
 				curr_row += 1
 
-		while curr_col >= 0:
+		while curr_col >= 0 and curr_row >= 0:
 			if self.board[curr_row][curr_col] == 1:
 				count1 += 1
 				count2 = 0
@@ -173,53 +175,53 @@ class Connect4:
 		pkl_file.close()
 
 	def main(self):
-		pass
+		current_player = 1
+		self.col_size = int(sys.argv[1])
+		self.row_size = int(sys.argv[2])
+		self.win = int(sys.argv[3])
+		self.reset()
 
+		while game.winner == False:
+			game.print_board()
+			player1_won = False
+			player2_won = False
+			try:
+				if current_player == 1:
+					col = raw_input('Player 1: ')
+					if col == 'save':
+						game.save()
+					elif col == 'load':
+						game.load()
+					elif col == 'reset':
+						game.reset()
+					else:
+						col = int(col)
+						if game.place_token(col, current_player) == 1:
+							player1_won = True
+						game.check_if_won()
+						current_player = 2
+				elif current_player == 2:
+					col = raw_input("Player 2: ")
+					if col == 'save':
+						game.save()
+					elif col == 'load':
+						game.load()
+					elif col == 'reset':
+						game.reset()
+					else:
+						col = int(col)
+						if game.place_token(col, current_player) == 2:
+							player2_won = True
+						game.check_if_won()
+						current_player = 1
+			except IndentationError:
+				print("Invalid Input")
 
-current_player = 1
-game = Connect4(7, 7, 4)
-
-while game.winner == False:
-	game.print_board()
-	player1_won = False
-	player2_won = False
-	try:
-		if current_player == 1:
-			col = raw_input('Player 1: ')
-			if col == 'save':
-				game.save()
-			elif col == 'load':
-				game.load()
-			elif col == 'reset':
-				game.reset()
-			else:
-				col = int(col)
-				if game.place_token(col, current_player) == 1:
-					player1_won = True
-				game.check_if_won()
-				current_player = 2
-		elif current_player == 2:
-			col = raw_input("Player 2: ")
-			if col == 'save':
-				game.save()
-			elif col == 'load':
-				game.load()
-			elif col == 'reset':
-				game.reset()
-			else:
-				col = int(col)
-				if game.place_token(col, current_player) == 2:
-					player2_won = True
-				game.check_if_won()
-				current_player = 1
-	except:
-		print("Invalid Input")
-
-game.print_board()
-if(player1_won):
-	print('Player 1 Won!')
-else:
-	print('Player 2 Won!')
-
-
+		game.print_board()
+		if(player1_won):
+			print('Player 1 Won!')
+		else:
+			print('Player 2 Won!')
+game = Connect4()
+game.main()
 
