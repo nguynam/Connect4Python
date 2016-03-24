@@ -181,50 +181,47 @@ class Connect4:
 		self.row_size = int(sys.argv[2])
 		self.win = int(sys.argv[3])
 		self.reset()
-		while game.winner == False:
-			game.print_board()
+		while self.winner == False:
+			self.print_board()
 			player1_won = False
 			player2_won = False
 			try:
 				if current_player == 1:
 					col = raw_input('Player 1: ')
 					if col == 'save':
-						game.save()
+						self.save()
 					elif col == 'load':
-						game.load()
+						self.load()
 					elif col == 'reset':
-						game.reset()
+						self.reset()
 					else:
 						col = int(col)
-						if game.place_token(col, current_player) == 1:
+						if self.place_token(col, current_player) == 1:
 							player1_won = True
-						game.check_if_won()
+						self.check_if_won()
 						current_player = 2
 
 				elif current_player == 2:
 					col = raw_input("Player 2: ")
 					if col == 'save':
-						game.save()
+						self.save()
 					elif col == 'load':
-						game.load()
+						self.load()
 					elif col == 'reset':
-						game.reset()
+						self.reset()
 					else:
 						col = int(col)
-						if game.place_token(col, current_player) == 2:
+						if self.place_token(col, current_player) == 2:
 							player2_won = True
-						game.check_if_won()
+						self.check_if_won()
 						current_player = 1
 
 			except:
 				print("Invalid Input")
 
-		game.print_board()
+		self.print_board()
 		if(player1_won):
 			print('Player 1 Won!')
 		else:
 			print('Player 2 Won!')
 
-if __name__ == "__main__":
-	game = Connect4()
-	game.main()
