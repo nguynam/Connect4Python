@@ -4,8 +4,8 @@ import pickle
 import sys
 
 class Connect4:
-	row_size = None
-	col_size = None
+	row_size = 7
+	col_size = 7
 	current_row = None
 	current_col = None
 	win = 4
@@ -47,19 +47,23 @@ class Connect4:
 		count2 = 0
 		for i in xrange(self.row_size - 1, -1, -1):
 			if self.board[i][self.current_col] == 1:
-				count1 += 1
+				increment = lambda x: count1 + x
+				count1 = increment(1)
+				# count1 += 1
 				count2 = 0
 				if count1 == self.win:
 					self.winner = True
-					#print('Player 1 Won!')
+					print('Player 1 Won!')
 					return 1
 
 			elif self.board[i][self.current_col] == 2:
-				count2 += 1
+				increment = lambda x: count2 + x
+				count2 = increment(1)
+				#count2 += 1
 				count1 = 0
 				if count2 == self.win:
 					self.winner = True
-					#print('Player 2 Won!')
+					print('Player 2 Won!')
 					return 2
 
 		#Check Horizontal Win
@@ -67,21 +71,25 @@ class Connect4:
 		count2 = 0
 		for i in xrange(self.col_size - 1, -1, -1):
 			if self.board[self.current_row][i] == 1:
-				count1 += 1
+				increment = lambda x: count1 + x
+				count1 = increment(1)
+				#count1 += 1
 				count2 = 0
 				if count1 == self.win:
 					self.winner = True
-					#print('Player 1 Won!')
+					print('Player 1 Won!')
 					return 1
 			else:
 				count1 = 0
 
 			if self.board[self.current_row][i] == 2:
-				count2 += 1
+				increment = lambda x: count2 + x
+				count2 = increment(1)
+				#count2 += 1
 				count1 = 0
 				if count2 == self.win:
 					self.winner = True
-					#print('Player 2 Won!')
+					print('Player 2 Won!')
 					return 2
 			else:
 				count2 = 0
@@ -100,8 +108,6 @@ class Connect4:
 				curr_row += 1
 
 		while curr_col <= self.col_size - 1 and curr_row >= 0:
-#			print('Col: ' + str(curr_col))
-#			print('Row: ' + str(curr_row))
 			if self.board[curr_row][curr_col] == 1:
 				count1 += 1
 				count2 = 0
@@ -168,13 +174,13 @@ class Connect4:
 		self.board = pickle.load(pkl_file)
 		pkl_file.close()
 
+
 	def main(self):
 		current_player = 1
 		self.col_size = int(sys.argv[1])
 		self.row_size = int(sys.argv[2])
 		self.win = int(sys.argv[3])
 		self.reset()
-
 		while game.winner == False:
 			game.print_board()
 			player1_won = False
@@ -194,6 +200,7 @@ class Connect4:
 							player1_won = True
 						game.check_if_won()
 						current_player = 2
+
 				elif current_player == 2:
 					col = raw_input("Player 2: ")
 					if col == 'save':
@@ -208,7 +215,8 @@ class Connect4:
 							player2_won = True
 						game.check_if_won()
 						current_player = 1
-			except IndentationError:
+
+			except:
 				print("Invalid Input")
 
 		game.print_board()
@@ -216,8 +224,7 @@ class Connect4:
 			print('Player 1 Won!')
 		else:
 			print('Player 2 Won!')
-	
+
 if __name__ == "__main__":
 	game = Connect4()
 	game.main()
-
