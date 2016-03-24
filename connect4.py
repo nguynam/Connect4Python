@@ -12,12 +12,6 @@ class Connect4:
 	board = []
 	winner = False
 
-#	def __init__(self, row, col, win):
-#		self.row_size = row
-#		self.col_size = col
-#		self.win = win
-#		self.board = [[0 for x in xrange(col)] for x in xrange(row)]
-
 	def reset(self):
 		self.board = [[0 for x in xrange(self.col_size)] for x in xrange(self.row_size)]
 
@@ -222,6 +216,8 @@ class Connect4:
 			print('Player 1 Won!')
 		else:
 			print('Player 2 Won!')
-game = Connect4()
-game.main()
+	
+if __name__ == "__main__":
+	game = Connect4()
+	game.main()
 
